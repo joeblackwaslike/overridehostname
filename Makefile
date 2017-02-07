@@ -40,4 +40,4 @@ release:
 
 upload-release:
 	github-release upload --user $(USER) --repo $(PROJECT) --tag $(TAG) \
-		--name lib$(PROJECT).so.1 --file lib$(PROJECT).so.1
+		--name lib$(PROJECT).so.1 --file $(PROJECT)/bin/lib$(PROJECT).so.1

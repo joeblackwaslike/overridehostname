@@ -1,0 +1,42 @@
+#!/bin/bash -l
+
+set -e
+
+function report {
+    local title="$1"
+    echo -e "
+$1:
+ip:                 $(get-ipv4)
+hostname:           $(/bin/hostname)
+short:              $(/bin/hostname -s)
+fqdn:               $(/bin/hostname -f)
+all-fqdns:          $(/bin/hostname -A)
+domainname:         $(/bin/domainname)
+dnsdomainname:      $(/bin/dnsdomainname)
+HOSTNAME:           $HOSTNAME
+    "
+    echo '/etc/hostname'
+    cat /etc/hostname
+    echo
+
+    echo '/etc/hosts'
+    cat /etc/hosts
+    echo
+}
+
+make
+make install
+
+report 'before enable'
+
+# export LD_PRELOAD=/usr/local/lib/liboverridehostname.so.1 OVERRIDE_HOSTNAME=true
+eval $(kube-hostname-fix enable)
+
+report 'after enable'
+
+eval $(kube-hostname-fix disable)
+
+report 'after disable'
+
+
+[[ $STAY_UP == true ]] && tail -f /dev/null

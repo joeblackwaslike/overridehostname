@@ -1,9 +1,17 @@
 # overridehostname
 
-This project was created in order to override calls to `gethostname(2)` and `sethostname(2)` of libc.  This is mainly useful inside docker containers for situations where you cannot control the conditions in which the container was originally started in a similarly useful way, such as under kubernetes.
+[![Build Status](https://travis-ci.org/joeblackwaslike/overridehostname.svg?branch=master)](https://travis-ci.org/joeblackwaslike/overridehostname)
+
+## Maintainer
+
+Joe Black <joeblack949@gmail.com>
+
+## Description
+
+This project was created in order to override calls to `gethostname(2)` and `sethostname(2)` in libc.  This is mainly useful inside docker containers for situations where you cannot control the conditions in which the container was originally started in a similarly useful way, such as under kubernetes.
 
 
-Some applications, especially erlang applications, impose requirements that make running them under kubernetes extremely difficult and this is the usecase this was designed for.  Although this can also be achieved by running the container with the `SYS_ADMIN` capability, I felt that is a rather unacceptable compromise.
+Some applications, especially erlang applications, impose requirements related to the erlang distribution protocol that make running them under containers, especially Kubernetes, a painful experience.  This is the usecase `overridehostname` was designed for.  Although this can also be achieved by running the container with the `SYS_ADMIN` capability, I felt that is a rather unacceptable compromise just to change a container hostname.
 
 
 ## Installation
@@ -26,10 +34,10 @@ echo "<ip.add.re.ss>    <new-hostname-fqdn> <new-hostname>" >> /etc/hosts
 
 * To remove the old hostname if you aren't using it anymore
 ```bash
-sed "/$OLD_HOSTNAME/d" /etc/hosts
+sed -i "/$OLD_HOSTNAME/d" /etc/hosts
 ```
 
-**Under docker this is harder, but the following will work**
+**Under docker this is harder, but the following hack will work**
 ```bash
 echo "$(sed "/$OLD_HOSTNAME/d" /etc/hosts)" > /etc/hosts
 ```

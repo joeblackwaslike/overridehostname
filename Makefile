@@ -12,8 +12,7 @@ build:
 
 run:
 	@docker run --rm --name $(IMAGE) \
-		-v $(PWD)/$(PROJECT):/build/$(PROJECT) \
-		$(IMAGE)
+		-v $(PWD)/$(PROJECT):/build/$(PROJECT) $(IMAGE)
 
 rund:
 	@docker run -d --name $(IMAGE) \

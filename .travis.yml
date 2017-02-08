@@ -17,15 +17,17 @@ notifications:
     on_success: always
     on_failure: always
 branches:
+  except:
+  - /.*/
   only:
   - master
 
 before_install:
 - go get github.com/aktau/github-release
 - source scripts/ci/environment.sh
-- make build
+- make build-builder
 
-install: make run
+install: make build
 
 script: true
 

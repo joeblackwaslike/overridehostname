@@ -7,6 +7,10 @@ target: '.travis.yml'
 {% set github_token = env.get('GITHUB_TOKEN') -%}
 {% set slack_secret = env.get('TRAVIS_SLACK_SECRET') -%}
 
+addons:
+  apt:
+    packages:
+    - realpath
 language: python
 services: docker
 env:

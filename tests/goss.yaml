@@ -1,0 +1,9 @@
+file:
+  /repo/overridehostname/bin/liboverridehostname.so.1:
+    exists: true
+    mode: "0755"
+    size:
+      gt: 16000
+    owner: root
+    group: root
+    filetype: file

@@ -1,24 +1,19 @@
-language: go
+language: python
 services: docker
 env:
   global:
-  - DOCKER_USER=callforamerica
-  # GITHUB_TOKEN
-  - secure: "bvSCFZ0C2p+ug9mnDf01A2N7gaxn+8d7QGXkP8JZmJ91SGGrtEHxHdeYpoQfBr7Va/1TB6t0xYTlhb+0qN/9fBRPx1AGHytkroEQYhXwhGIJ53xJhg6aPWiZTw0HRL3a3C8ZsmJjohW4vyOa3kgvbf+rBpjH8kY7ceARfYm5Ff5LyTLZNDoPtCTRkOa+yfmIWR8W82FXosgRZIhcHdVNmt25G3RV5Ol32b8NmYiPxVWUy51CIgZJX07UwQVtiJBc5z5SxUR38wjRlrfx2w5qd8YFYmVUJwFiP/v2SKFY/k1xxvVol93oO1n1bDA+26KR3G50I05UUiN+slFhrJK9rRI1ke1UZEH2cTLEovBKWqmoK6oz19N/QWLF3BBXhmEVSNQ626iQrc3Zyfagjc0zcj3vanbmXkEZdu1mZudBQAMJpoeYhKwDtWrq2l7xuxdcWN4YFWPPBhnZjfBCBdKcppstmN8Q3o34Ny/IPwrd1rX30YYt/nIp+v1ez9n8RmLNLI89tOpCm8/d5OH+/QDfFGnhAiCHn3GTA+f8+FjHoB39XQo/mMh+s2xr4SaG0eyRz2oA/x8dZQEpB8s4P4jl4yYjPQ7qkunbDFgJ0k2rluOH2Q03U+BqeAIGuh23LoAZjQ02+uX0S0spzjxLQu4/MzVMD9tL43vkmboBegm13aY="
+  - GITHUB_USER=joeblackwaslike
+  - GITHUB_ORG=joeblackwaslike
+  - DOCKER_ORG=joeblackwaslike
+notifications:
   email:
     on_success: never
-    on_failure: always
-  slack:
-    rooms:
-    - secure: "NiyJUb9iBVp6b+uFEj/imZeip4KLa+eNS23theboprGO9Tw2xX2eFvQrl8PW6yZ8faptQ4NPw/qZSs1hOkiXHkmijjza6UrgC8StZnnaIDfn1k7R52yemzAT0NrZs+OT/Dzdm0uVSsvCy32n2pLn1aMhfrJ5XObQ9b6ellgl+vdXcwUQRNSVwxSeYcGLh1OahCXB89TRa3QLhL0GNDITklp7lmXmhy4Qa5Yt0iDTp/nQm6hLBQU16eF5lTQqSB9DUAtGpgLAWvrbeNyMlQNeX6VLWhjP2wS0oO10zM8FwGurWFB65pjIXGkmhOjYBHCLdMxxmrZW1/PMvRIUkJCDMqpJgLpa1s63/a4BxRRKVkz39NvaU1HrQhW1VlI86n/wgxde61glIZyn0px2NUuewziDFhTvQaBYjQ0gmKEdIzZM3uciT6lRQgulh3t2PoyCFpf9OiIibyTpYNTCLALnpBZy+qFnfKgBBFBQD45AAtnpS5rZkWyNAoMEkyh4TGgqsn7OhJUzFDQbjhmTvH0k+V8gV7Rpqhexbhzf4Ldf+ee74qIOgZddId6F9shfOO1qfBe0Odtn1FsCsqInElnHfW+lYaD+wDVF/ztPDEzyPqtghSfo7wdQ5DWUkbrggcO1K64eNIamqHrXnwN92N49KPFBTnE5HrhCei3d1tjYHA0="
-    on_success: always
     on_failure: always
 branches:
   only:
   - master
 
 before_install:
-- go get github.com/aktau/github-release
 - source scripts/ci/environment.sh
 - make build-builder
 
@@ -26,7 +21,11 @@ install: make build
 
 script: true
 
-after_success:
-- bump-version
-- make-release
-- upload-release
+deploy:
+  provider: releases
+  api_key:
+    secure: "hHMTQTvAt8nFovarm6qhQndTfXoyar7PpkpEbIc0drL+LQRyXapfcwx6C6PWwg82y93bvOITL/9N5hKZBS6hvVE7tQB5ZHy6ofjHo9sVM1PIuq2p3XrrHP7CYOgi7XHvd0lQhrcDWJ6ox9ARQWtIbRv5C51bAxv19jeKUTVJMvbVYIx2n/ferx9bZquebUqr0nKb+j+wB7kCGSXA5rihO0c4ML3U6J4o6j9bzhNxrd0hmGSAghRWQOaN5eRx7XjbMGGaHj1RpdQcQ4ezfq5YyQ9ob/vf1Cpowj8DyscaDN91H1F+Bi8hJ25FfV0OvCutbc1gR3nSn2sNCpechpBVBbizAB+qthrtlRyEfnSkVoB4rBFySqA6/4106kXeOnVxGpbs8caPViIa6ZVixfGyNIZi0uItsGVqnx/P8P9wuMdX/W03sy1hZvVB7HDm/mk8MpHRlztyqI82eOfmWZT5g4UXlD4+OVgYFJjew5PtoAu5XW0GMkLxePd23OsmcgAVVUYX0zGGa1sbdq60doUKmsSpIPv/eMBAKiGcFWhJuxkPoNESpTK3OnQPxOmaZoW32uHF4ITnBVR4CFYBAgdtWq4UId+ofVBoLEK5POTexnpZZycy2sjf+/5XOzAEhjgzzSyguKM8Tc/WQORWZk2T0Tmbp2xEZkjPbMs6AadO5Y8="
+  file: overridehostname/bin/liboverridehostname.so.1
+  skip_cleanup: false
+  on:
+    tags: true

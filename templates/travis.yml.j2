@@ -1,0 +1,47 @@
+---
+target: '.travis.yml'
+---
+{% set github_user = data.get('vars')['github']['user'] -%}
+{% set github_org = data.get('vars')['github']['org'] -%}
+{% set docker_org = data.get('vars')['docker']['org'] -%}
+{% set github_token = env.get('GITHUB_TOKEN') -%}
+{% set slack_secret = env.get('TRAVIS_SLACK_SECRET') -%}
+
+language: python
+services: docker
+env:
+  global:
+  - GITHUB_USER={{ github_user }}
+  - GITHUB_ORG={{ github_org }}
+  - DOCKER_ORG={{ docker_org }}
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+{% if github_org == 'telephoneorg' and slack_secret -%}
+  slack:
+    rooms:
+    - secure: {{ shell('travis encrypt --no-interactive "{}"'.format(slack_secret)) }}
+    on_success: always
+    on_failure: always
+{%- endif %}
+branches:
+  only:
+  - master
+
+before_install:
+- source scripts/ci/environment.sh
+- make build-builder
+
+install: make build
+
+script: true
+
+deploy:
+  provider: releases
+  api_key:
+    secure: {{ shell('travis encrypt --no-interactive "GITHUB_TOKEN={}"'.format(github_token)) }}
+  file: overridehostname/bin/liboverridehostname.so.1
+  skip_cleanup: false
+  on:
+    tags: true

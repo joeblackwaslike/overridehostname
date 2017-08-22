@@ -1,0 +1,10 @@
+name: overridehostname
+heading: liboverridehostname
+description: |-
+  Intercepts calls to gethostname(2) and sethostname(2)
+github:
+  user: joeblackwaslike
+  org: joeblackwaslike
+  repo: overridehostname
+docker:
+  org: joeblackwaslike

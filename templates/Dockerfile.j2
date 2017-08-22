@@ -1,4 +1,9 @@
-FROM    joeblackwaslike/debian:stretch
+---
+target: Dockerfile
+---
+{% set docker_org = data.get('vars')['docker']['org'] -%}
+
+FROM    {{ docker_org }}/debian:stretch
 
 
 MAINTAINER Joe Black <me@joeblack.nyc>

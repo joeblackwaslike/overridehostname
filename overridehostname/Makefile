@@ -1,17 +1,17 @@
-PROJECT = overridehostname
+PROJECT := overridehostname
 
-SOURCE = $(PROJECT).c
-TARGET = lib$(PROJECT).so.1
+SOURCE := $(PROJECT).c
+TARGET := lib$(PROJECT).so.1
 
-CC = gcc
-BINDIR = bin
+CC := gcc
+BINDIR := bin
 
 all: $(TARGET)
 
 $(TARGET): $(SOURCE)
 	$(CC) -fPIC -g -Wall -shared -Wl,-soname,$@ -ldl -o $(BINDIR)/$@ $<
 
-install:
+install: $(TARGET)
 	cp $(BINDIR)/$(TARGET) /usr/local/lib/
 
 

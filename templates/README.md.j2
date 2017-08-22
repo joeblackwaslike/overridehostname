@@ -1,5 +1,14 @@
-# liboverridehostname
-[![Build Status](https://travis-ci.org/joeblackwaslike/overridehostname.svg?branch=master)](https://travis-ci.org/joeblackwaslike/overridehostname) [![Github Repo](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/joeblackwaslike/overridehostname)
+---
+target: README.md
+---
+
+{% set github = data.get('vars')['github'] -%}
+{% set github_org = github['org'] -%}
+{% set github_repo = github['repo'] -%}
+{% set github_branch = env.get('BRANCH', 'master') -%}
+
+# {{ data.get('vars')['heading'] }}
+[![Build Status](https://travis-ci.org/{{ github_org }}/{{ github_repo }}.svg?branch={{ github_branch }})](https://travis-ci.org/{{ github_org }}/{{ github_repo }}) [![Github Repo](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/{{ github_org }}/{{ github_repo }})
 
 
 ## Maintainer

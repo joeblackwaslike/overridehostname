@@ -1,4 +1,7 @@
 # liboverridehostname
+
+[![Discord](https://img.shields.io/discord/1486035859747897414?logo=discord&label=Discord&color=5865F2)](https://discord.com/channels/1486035859747897414/1509515383978070088) [![Join Discord](https://img.shields.io/badge/Discord-Join%20Server-5865F2?logo=discord&logoColor=white)](https://discord.gg/Fjc9zYHZyV)
+
 [![Build Status](https://travis-ci.org/joeblackwaslike/overridehostname.svg?branch=master)](https://travis-ci.org/joeblackwaslike/overridehostname) [![Github Repo](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/joeblackwaslike/overridehostname)
 
 
